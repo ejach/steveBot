@@ -1,0 +1,2 @@
+Pillow~=8.2.0
+Random-Word-Generator==1.3
