@@ -8,7 +8,7 @@
 [![PyPI](https://img.shields.io/pypi/v/Pillow?logo=python&label=Pillow&style=flat-square&color=FFD43B)](https://pypi.org/project/Pillow/)
 
 
-A simple Twitter bot that tweets every 24 hours the amount of time Bobby Shmurda has been released from prison and has **not** released a song.
+A Twitter bot that tweets a Steve Buscemi's word of the day.
 
 ## How to install
 
