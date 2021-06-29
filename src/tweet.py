@@ -23,6 +23,8 @@ auth.set_access_token(access_token, access_token_secret)
 
 # Create API object
 api = tweepy.API(auth)
+# Time of day to tweet, 24h format
+tweet_time = '11:22'
 
 
 # Checks if the credentials entered are correct
@@ -39,7 +41,7 @@ def authenticate():
 # word in the body of the tweet
 def tweet():
     word = draw_image()
-    image = 'steve2.jpg'
+    image = './assets/steve2.jpg'
     status = 'The word of the day is {0}'.format(word)
     # Tweet image with the corresponding status
     api.update_with_media(image, status)
@@ -55,8 +57,8 @@ def time_left():
     return math.trunc(s)
 
 
-# Every day at 12am, tweet
-schedule.every().day.at("00:00").do(tweet)
+# Every day at the specified time, tweet
+schedule.every().day.at(tweet_time).do(tweet)
 
 # Infinite loop, tweets every day, rest for 24 hours until the next day.
 # If executed twice within the 24 hour interval, it will notify the user how to proceed.
