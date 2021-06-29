@@ -1,4 +1,4 @@
-from draw_image import draw_image
+from tweet import tweet
 
 if __name__ == "__main__":
-    draw_image()
+    tweet()
