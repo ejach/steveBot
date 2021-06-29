@@ -24,7 +24,7 @@ auth.set_access_token(access_token, access_token_secret)
 # Create API object
 api = tweepy.API(auth)
 # Time of day to tweet, 24h format
-tweet_time = '11:22'
+tweet_time = '00:00'
 
 
 # Checks if the credentials entered are correct
