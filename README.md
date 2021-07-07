@@ -6,8 +6,6 @@
 [![PyPI](https://img.shields.io/pypi/v/tweepy?logo=python&label=tweepy&style=flat-square&color=FFD43B)](https://pypi.org/project/tweepy/)
 [![PyPI](https://img.shields.io/pypi/v/Random-Word?logo=python&label=Random-Word&style=flat-square&color=FFD43B)](https://pypi.org/project/Random-Word/)
 [![PyPI](https://img.shields.io/pypi/v/Pillow?logo=python&label=Pillow&style=flat-square&color=FFD43B)](https://pypi.org/project/Pillow/)
-[![build](https://github.com/ejach/steveBot/actions/workflows/prod.yml/badge.svg)](https://github.com/ejach/steveBot/actions/workflows/prod.yml)
-
 
 A Twitter bot that tweets a Steve Buscemi word of the day.
 
