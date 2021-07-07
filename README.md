@@ -14,7 +14,7 @@ A Twitter bot that tweets a Steve Buscemi word of the day.
 
 ### With Docker
 
-`sudo docker run -it -e consumer_key=<YOUR_KEY> -e consumer_secret=<YOUR_KEY> -e access_token=<YOUR_KEY> -e access_token_secret=<YOUR_KEY> ejach/stevebot:latest`
+`sudo docker run -it -e consumer_key=<YOUR_KEY> -e consumer_secret=<YOUR_KEY> -e access_token=<YOUR_KEY> -e access_token_secret=<YOUR_KEY> ghcr.io/ejach/stevebot:latest`
 
 ### Manually
 
