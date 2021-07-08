@@ -36,7 +36,7 @@ def draw_image():
     while True:
         try:
             # Open an Image
-            img = Image.open('../assets/steve.jpg')
+            img = Image.open('./assets/steve.jpg')
 
             # Call draw Method to add 2D graphics in an image
             img_1 = ImageDraw.Draw(img)
@@ -44,7 +44,7 @@ def draw_image():
             print('Width: ' + str(w) + ' height: ' + str(h))
 
             # Add text to an image
-            font_path = '../assets/fonts/impact.ttf'
+            font_path = './assets/fonts/impact.ttf'
             font = ImageFont.truetype(font_path, 150)
             # Checks for (almost) centering the image depending on the length of the text
             # TODO: Needs improvement
@@ -60,7 +60,7 @@ def draw_image():
                 img_1.text((230, 1020), word, fill='white', font=font,
                            stroke_width=5, stroke_fill='black')
             # Save the edited image
-            img.save("../assets/steve2.jpg")
+            img.save("./assets/steve2.jpg")
             # If typeError is thrown, get another random word
             # This is a workaround for the API itself, there is no fix as of late
         except Exception as e:
