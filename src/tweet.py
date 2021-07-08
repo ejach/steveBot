@@ -7,7 +7,7 @@ import schedule
 import tweepy
 from dotenv import load_dotenv
 
-from draw_image import draw_image
+from draw_image import draw_image, get_def
 
 # Loads the .env file for the credentials
 load_dotenv()
@@ -41,8 +41,10 @@ def authenticate():
 # word in the body of the tweet
 def tweet():
     word = draw_image()
+    definition = get_def()
+    # Instantiate dictionary to look up definition of the word
     image = './assets/steve2.jpg'
-    status = 'The word of the day is {0}'.format(word)
+    status = 'The word of the day is {0}: "{1}"'.format(word, definition)
     # Tweet image with the corresponding status
     api.update_with_media(image, status)
     print('Tweet has been sent! See you in 24h.')
