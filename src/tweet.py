@@ -43,7 +43,7 @@ def tweet():
     word = draw_image()
     definition = get_def()
     # Instantiate dictionary to look up definition of the word
-    image = '../assets/steve2.jpg'
+    image = './assets/steve2.jpg'
     status = 'The word of the day is {0}: "{1}"'.format(word, definition)
     # Tweet image with the corresponding status
     api.update_with_media(image, status)
