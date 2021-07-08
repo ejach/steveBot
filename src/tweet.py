@@ -24,7 +24,7 @@ auth.set_access_token(access_token, access_token_secret)
 # Create API object
 api = tweepy.API(auth)
 # Time of day to tweet, 24h format
-tweet_time = '00:00'
+tweet_time = os.environ.get('time_of_day')
 
 
 # Checks if the credentials entered are correct
@@ -52,8 +52,9 @@ def tweet():
 
 # Calculates the amount of time left (in minutes) before 12am
 def time_left():
+    strip_time = tweet_time.replace(':', '')
     time_delta = datetime.combine(
-        datetime.now().date() + timedelta(days=1), datetime.strptime("0000", "%H%M").time()
+        datetime.now().date() + timedelta(days=1), datetime.strptime(strip_time, "%H%M").time()
     ) - datetime.now()
     s = time_delta.seconds / 60
     return math.trunc(s)
