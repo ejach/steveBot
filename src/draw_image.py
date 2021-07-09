@@ -1,13 +1,9 @@
-# Importing the PIL library
 import json
 import time
 
 from PIL import Image, ImageFont
 from PIL import ImageDraw
 from random_word import RandomWords
-
-# Global variable for the RandomWords function
-wotd = RandomWords()
 
 
 # Function for getting the word of the day from the RandomWords API
@@ -24,6 +20,8 @@ def get_def():
     dict_grab = RandomWords()
     word_grab = json.loads(dict_grab.word_of_the_day())
     for _ in word_grab:
+        # This spelling mistake is hardcoded directly in the API itself,
+        # guess who isn't sleeping tonight?
         dict_def = word_grab['definations'][0]['text']
         return dict_def
 
