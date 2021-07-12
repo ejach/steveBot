@@ -24,6 +24,7 @@ auth.set_access_token(access_token, access_token_secret)
 # Create API object
 api = tweepy.API(auth)
 # Time of day to tweet, 24h format
+# This value is set in the .env file
 tweet_time = os.environ.get('time_of_day')
 
 
@@ -50,7 +51,7 @@ def tweet():
     print('Tweet has been sent! See you in 24h.')
 
 
-# Calculates the amount of time left (in minutes) before 12am
+# Calculates the amount of time left (in minutes) before 12am (or the custom time set in the .env file)
 def time_left():
     strip_time = tweet_time.replace(':', '')
     time_delta = datetime.combine(
@@ -63,7 +64,7 @@ def time_left():
 # Every day at the specified time, tweet
 schedule.every().day.at(tweet_time).do(tweet)
 
-# Infinite loop, tweets every day, rest for 24 hours until the next day.
+# Infinite loop, tweets every day at the desired time, rest for 24 hours until the next day.
 # If executed twice within the 24 hour interval, it will notify the user how to proceed.
 try:
     # Informs the user upon running the script how many minutes are left before the next tweet is sent
