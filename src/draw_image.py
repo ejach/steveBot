@@ -6,7 +6,7 @@ from PIL import ImageDraw
 from random_word import RandomWords
 
 
-# Function for getting the word of the day from the RandomWords API
+# Function for getting the word of the day from the RandomWords library
 def get_word():
     dict_word = RandomWords()
     word_grab = json.loads(dict_word.word_of_the_day())
@@ -15,7 +15,7 @@ def get_word():
         return dict_word
 
 
-# Function for getting the word's definition from the RandomWords API
+# Function for getting the word's definition from the RandomWords library
 def get_def():
     dict_grab = RandomWords()
     word_grab = json.loads(dict_grab.word_of_the_day())
@@ -26,7 +26,7 @@ def get_def():
         return dict_def
 
 
-# Function that handles writing the word from the API to the image
+# Function that handles writing the word from the library to the image
 # Saved as steve2.jpg, returns the word for use in the tweet status
 def draw_image():
     # Calls the get_word function
@@ -60,7 +60,7 @@ def draw_image():
             # Save the edited image
             img.save("./assets/steve2.jpg")
             # If typeError is thrown, get another random word
-            # This is a workaround for the API itself, there is no fix as of late
+            # This is a workaround for the library itself, there is no fix as of late
         except Exception as e:
             print(e)
             print('Restarting!')
