@@ -1,4 +1,3 @@
-import math
 from time import sleep
 from json import loads
 from PIL import Image, ImageFont
