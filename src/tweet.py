@@ -1,31 +1,29 @@
-import math
-import os
-import time
+from math import trunc
+from os import environ
+from time import sleep
 from datetime import datetime, timedelta
-
-import schedule
-import tweepy
+from schedule import every, run_pending
+from tweepy import OAuthHandler, API, TweepError
 from dotenv import load_dotenv
-
 from draw_image import draw_image, get_def
 
 # Loads the .env file for the credentials
 load_dotenv()
 
 # Credentials set in the .env file
-consumer_key = os.environ.get('consumer_key')
-consumer_secret = os.environ.get('consumer_secret')
-access_token = os.environ.get('access_token')
-access_token_secret = os.environ.get('access_token_secret')
+consumer_key = environ.get('consumer_key')
+consumer_secret = environ.get('consumer_secret')
+access_token = environ.get('access_token')
+access_token_secret = environ.get('access_token_secret')
 
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 # Create API object
-api = tweepy.API(auth)
+api = API(auth)
 # Time of day to tweet, 24h format
 # This value is set in the .env file
-tweet_time = os.environ.get('time_of_day')
+tweet_time = environ.get('time_of_day')
 
 
 # Checks if the credentials entered are correct
@@ -58,11 +56,11 @@ def time_left():
         datetime.now().date() + timedelta(days=1), datetime.strptime(strip_time, "%H%M").time()
     ) - datetime.now()
     s = time_delta.seconds / 60
-    return math.trunc(s)
+    return trunc(s)
 
 
 # Every day at the specified time, tweet
-schedule.every().day.at(tweet_time).do(tweet)
+every().day.at(tweet_time).do(tweet)
 
 # Infinite loop, tweets every day at the desired time, rest for 24 hours until the next day.
 # If executed twice within the 24 hour interval, it will notify the user how to proceed.
@@ -72,11 +70,11 @@ try:
         exit()
     # While the authentication function is true, run the tweet function every 1s
     while True:
-        schedule.run_pending()
-        time.sleep(1)
+        run_pending()
+        sleep(1)
 # Catch TweepError 187 and proceed accordingly.
 # If upon execution the program catches error code 401, proceed accordingly
-except tweepy.TweepError as err:
+except TweepError as err:
     if err.api_code == 187:
         print('Duplicate tweet detected. Please wait 24 hours before executing again, or just delete the newest tweet.')
     if err.api_code == 401:
