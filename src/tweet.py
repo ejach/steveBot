@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepError
 from dotenv import load_dotenv
-from draw_image import draw_image, get_def
+from draw_image import draw_image
 
 # Loads the .env file for the credentials
 load_dotenv()
@@ -39,11 +39,10 @@ def authenticate():
 # Call the draw_image function, then tweet the image and the corresponding
 # word in the body of the tweet
 def tweet():
-    word = draw_image()
-    definition = get_def()
+    word, word_def = draw_image()
     # Instantiate dictionary to look up definition of the word
     image = './assets/steve2.jpg'
-    status = 'The word of the day is {0}: "{1}"'.format(word, definition)
+    status = f'The word of the day is {word}: "{word_def}"'
     # Tweet image with the corresponding status
     api.update_with_media(image, status)
     print('Tweet has been sent! See you in 24h.')
@@ -66,8 +65,7 @@ every().day.at(tweet_time).do(tweet)
 # If executed twice within the 24 hour interval, it will notify the user how to proceed.
 try:
     # Informs the user upon running the script how many minutes are left before the next tweet is sent
-    print('There is {0} minutes until the next tweet is sent. Sit tight!'.format(time_left())) if authenticate() else \
-        exit()
+    print(f'There is {time_left()} minutes until the next tweet is sent. Sit tight!') if authenticate() else exit()
     # While the authentication function is true, run the tweet function every 1s
     while True:
         run_pending()
