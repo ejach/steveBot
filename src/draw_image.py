@@ -5,24 +5,16 @@ from PIL import ImageDraw
 from random_word import RandomWords
 
 
-# Function for getting the word of the day from the RandomWords library
+# Function for getting the word of the day from the RandomWords library and its definition
 def get_word():
     dict_word = RandomWords()
     word_grab = loads(dict_word.word_of_the_day())
     for _ in word_grab:
         dict_word = word_grab['word']
-        return dict_word
-
-
-# Function for getting the word's definition from the RandomWords library
-def get_def():
-    dict_grab = RandomWords()
-    word_grab = loads(dict_grab.word_of_the_day())
-    for _ in word_grab:
         # This spelling mistake is hardcoded directly in the library itself,
         # guess who isn't sleeping tonight?
         dict_def = word_grab['definations'][0]['text']
-        return dict_def
+        return dict_word, dict_def
 
 
 # Gets width of text and adjusts accordingly so it is not cut off
@@ -53,7 +45,7 @@ def get_width(width):
 # Saved as steve2.jpg, returns the word for use in the tweet status
 def draw_image():
     # Calls the get_word function
-    word = get_word()
+    word, def_word = get_word()
     while True:
         try:
             # Open an Image
@@ -69,7 +61,6 @@ def draw_image():
             font = ImageFont.truetype(font_path, 150)
             height = get_width(w)
             # Checks for (almost) centering the image depending on the length of the text
-            # TODO: Needs improvement
             img_1.text((height, 1020), word, fill='white', font=font,
                        stroke_width=5, stroke_fill='black')
             # Save the edited image
@@ -84,4 +75,4 @@ def draw_image():
             continue
         else:
             break
-    return word
+    return word, def_word
