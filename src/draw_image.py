@@ -11,8 +11,6 @@ def get_word():
     word_grab = loads(dict_word.word_of_the_day())
     for _ in word_grab:
         dict_word = word_grab['word']
-        # This spelling mistake is hardcoded directly in the library itself,
-        # guess who isn't sleeping tonight?
         dict_def = word_grab['definations'][0]['text']
         return dict_word, dict_def
 
