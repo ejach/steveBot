@@ -38,7 +38,7 @@ def authenticate():
 
 # If the Tweet is longer than 280 characters, strip it and replace with the designated characters
 def tweet_strip(tweet_text):
-    text = (tweet_text[:276] + '..."') if len(tweet_text) > 276 else tweet_text
+    text = (tweet_text[:276] + '..."') if len(tweet_text) > 280 else tweet_text
     print(text)
     return text
 
