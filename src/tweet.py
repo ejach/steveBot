@@ -36,13 +36,22 @@ def authenticate():
         return True
 
 
+# If the Tweet is longer than 280 characters, strip it and replace with the designated characters
+def tweet_strip(tweet_text):
+    text = (tweet_text[:276] + '..."') if len(tweet_text) > 276 else tweet_text
+    print(text)
+    return text
+
+
 # Call the draw_image function, then tweet the image and the corresponding
 # word in the body of the tweet
 def tweet():
-    word, word_def = draw_image()
+    # word, word_def = draw_image()
+    word = draw_image()
     # Instantiate dictionary to look up definition of the word
     image = './assets/steve2.jpg'
-    status = f'The word of the day is {word}: "{word_def}"'
+    status_text = f'The word of the day is {word}: "def"'
+    status = tweet_strip(status_text)
     # Tweet image with the corresponding status
     api.update_with_media(image, status)
     print('Tweet has been sent! See you in 24h.')
@@ -70,10 +79,13 @@ try:
     while True:
         run_pending()
         sleep(1)
-# Catch TweepError 187 and proceed accordingly.
+# Catch TweepError 186 and 187 and proceed accordingly.
 # If upon execution the program catches error code 401, proceed accordingly
 except TweepError as err:
+    if err.api_code == 186:
+        print('Error 186: Tweet needs to be a bit shorter.')
     if err.api_code == 187:
-        print('Duplicate tweet detected. Please wait 24 hours before executing again, or just delete the newest tweet.')
+        print('Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, or just delete the '
+              'newest tweet.')
     if err.api_code == 401:
         print('Error 401: Unauthorized. Please make sure your keys/credentials are correct and try again.')
