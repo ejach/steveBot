@@ -47,10 +47,10 @@ def tweet_strip(tweet_text):
 # word in the body of the tweet
 def tweet():
     # word, word_def = draw_image()
-    word = draw_image()
+    word, word_def = draw_image()
     # Instantiate dictionary to look up definition of the word
     image = './assets/steve2.jpg'
-    status_text = f'The word of the day is {word}: "def"'
+    status_text = f'The word of the day is {word}: {word_def}'
     status = tweet_strip(status_text)
     # Tweet image with the corresponding status
     api.update_with_media(image, status)
