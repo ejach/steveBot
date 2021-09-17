@@ -39,7 +39,6 @@ def authenticate():
 # If the Tweet is longer than 280 characters, strip it and replace with the designated characters
 def tweet_strip(tweet_text):
     text = (tweet_text[:277] + '...') if len(tweet_text) > 280 else tweet_text
-    print(text)
     return text
 
 
@@ -61,7 +60,7 @@ def tweet():
 def time_left():
     strip_time = tweet_time.replace(':', '')
     time_delta = datetime.combine(
-        datetime.now().date() + timedelta(days=1), datetime.strptime(strip_time, "%H%M").time()
+        datetime.now().date() + timedelta(days=1), datetime.strptime(strip_time, '%H%M').time()
     ) - datetime.now()
     s = time_delta.seconds / 60
     return trunc(s)
