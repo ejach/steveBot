@@ -45,7 +45,6 @@ def tweet_strip(tweet_text):
 # Call the draw_image function, then tweet the image and the corresponding
 # word in the body of the tweet
 def tweet():
-    # word, word_def = draw_image()
     word, word_def = draw_image()
     # Instantiate dictionary to look up definition of the word
     image = './assets/steve2.jpg'
