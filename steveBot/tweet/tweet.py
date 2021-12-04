@@ -1,16 +1,14 @@
+from datetime import datetime, timedelta
 from math import trunc
 from os import environ
 from time import sleep
-from datetime import datetime, timedelta
+
 from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepError
-from dotenv import load_dotenv
-from draw_image import draw_image
 
-# Loads the .env file for the credentials
-load_dotenv()
+from steveBot.draw_image.draw_image import draw_image
 
-# Credentials set in the .env file
+# Credentials set in the example.env file
 consumer_key = environ.get('consumer_key')
 consumer_secret = environ.get('consumer_secret')
 access_token = environ.get('access_token')
@@ -22,7 +20,7 @@ auth.set_access_token(access_token, access_token_secret)
 # Create API object
 api = API(auth)
 # Time of day to tweet, 24h format
-# This value is set in the .env file
+# This value is set in the example.env file
 tweet_time = environ.get('time_of_day')
 
 
@@ -55,7 +53,7 @@ def tweet():
     print('Tweet has been sent! See you in 24h.')
 
 
-# Calculates the amount of time left (in minutes) before 12am (or the custom time set in the .env file)
+# Calculates the amount of time left (in minutes) before 12am (or the custom time set in the example.env file)
 def time_left():
     strip_time = tweet_time.replace(':', '')
     time_delta = datetime.combine(

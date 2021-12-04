@@ -1,7 +1,6 @@
 from time import sleep
 from json import loads
-from PIL import Image, ImageFont
-from PIL import ImageDraw
+from PIL import Image, ImageFont, ImageDraw
 from random_word import RandomWords
 
 
