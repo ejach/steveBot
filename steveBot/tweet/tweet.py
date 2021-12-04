@@ -6,7 +6,7 @@ from time import sleep
 from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepError
 
-from steveBot.draw_image.draw_image import draw_image
+from draw_image.draw_image import draw_image
 
 # Credentials set in the example.env file
 consumer_key = environ.get('consumer_key')
