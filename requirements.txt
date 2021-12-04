@@ -3,4 +3,3 @@ Random-Word==1.0.7
 PyYAML==5.4.1
 schedule~=1.1.0
 tweepy~=3.10.0
-python-dotenv~=0.18.0
