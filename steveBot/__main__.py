@@ -1,4 +1,4 @@
-from tweet.tweet import tweet
+from steveBot.tweet.tweet import tweet
 
 if __name__ == "__main__":
     tweet()
