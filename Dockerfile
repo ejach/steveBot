@@ -12,7 +12,8 @@ RUN ln -sf /usr/share/zoneinfo/America/New_York /etc/timezone && \
     pip install -r requirements.txt
 
 # copy the content of the local directory to the working directory
-COPY . .
+COPY . /steveBot
+COPY steveBot/__main__.py /steveBot
 
 # command to run on container start
-CMD [ "python", "steveBot/" ]
+CMD [ "python", "__main__.py" ]

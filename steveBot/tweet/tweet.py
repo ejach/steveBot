@@ -6,7 +6,7 @@ from time import sleep
 from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepError
 
-from draw_image.draw_image import draw_image
+from steveBot.draw_image.draw_image import draw_image, assets_path
 
 # Credentials set in the example.env file
 consumer_key = environ.get('consumer_key')
@@ -45,7 +45,7 @@ def tweet_strip(tweet_text):
 def tweet():
     word, word_def = draw_image()
     # Instantiate dictionary to look up definition of the word
-    image = './assets/steve2.jpg'
+    image = assets_path + '/assets/steve2.jpg'
     status_text = f'The word of the day is {word}: {word_def}'
     status = tweet_strip(status_text)
     # Tweet image with the corresponding status
