@@ -1,27 +1,22 @@
 from datetime import datetime, timedelta
 from math import trunc
-from os import environ
 from time import sleep
 
 from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepError
 
+from config import App
 from steveBot.draw_image.draw_image import draw_image, assets_path
 
-# Credentials set in the example.env file
-consumer_key = environ.get('consumer_key')
-consumer_secret = environ.get('consumer_secret')
-access_token = environ.get('access_token')
-access_token_secret = environ.get('access_token_secret')
 
-auth = OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
+# Credentials set in the config
+auth = OAuthHandler(App.config('consumer_key'), App.config('consumer_secret'))
+auth.set_access_token(App.config('access_token'), App.config('access_token_secret'))
 
 # Create API object
 api = API(auth)
-# Time of day to tweet, 24h format
-# This value is set in the example.env file
-tweet_time = environ.get('time_of_day')
+# Time of day to tweet, 24h format, set in the config
+tweet_time = App.config('time_of_day')
 
 
 # Checks if the credentials entered are correct
@@ -75,13 +70,14 @@ try:
     while True:
         run_pending()
         sleep(1)
-# Catch TweepError 186 and 187 and proceed accordingly.
-# If upon execution the program catches error code 401, proceed accordingly
+# Catch the TweepErrors and proceed accordingly
 except TweepError as err:
     if err.api_code == 186:
         print('Error 186: Tweet needs to be a bit shorter.')
     if err.api_code == 187:
         print('Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, or just delete the '
               'newest tweet.')
+    if err.api_code == 215:
+        print('Error 215: Bad Authentication data. Please make sure your keys/credentials are correct and try again.')
     if err.api_code == 401:
         print('Error 401: Unauthorized. Please make sure your keys/credentials are correct and try again.')
