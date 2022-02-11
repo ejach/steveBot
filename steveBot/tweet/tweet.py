@@ -1,22 +1,21 @@
 from datetime import datetime, timedelta
 from math import trunc
+from os import environ
 from time import sleep
 
 from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepError
 
-from config import App
 from steveBot.draw_image.draw_image import draw_image, assets_path
 
-
 # Credentials set in the config
-auth = OAuthHandler(App.config('consumer_key'), App.config('consumer_secret'))
-auth.set_access_token(App.config('access_token'), App.config('access_token_secret'))
+auth = OAuthHandler(environ.get('consumer_key'), environ.get('consumer_secret'))
+auth.set_access_token(environ.get('access_token'), environ.get('access_token_secret'))
 
 # Create API object
 api = API(auth)
 # Time of day to tweet, 24h format, set in the config
-tweet_time = App.config('time_of_day')
+tweet_time = environ.get('time_of_day')
 
 
 # Checks if the credentials entered are correct
@@ -58,8 +57,12 @@ def time_left():
     return trunc(s)
 
 
-# Every day at the specified time, tweet
-every().day.at(tweet_time).do(tweet)
+try:
+    # Every day at the specified time, tweet
+    every().day.at(tweet_time).do(tweet)
+# Catch the TypeError
+except TypeError as err:
+    exit(str(err) + '\n' + 'Please make sure your environment variables are set properly and try again.')
 
 # Infinite loop, tweets every day at the desired time, rest for 24 hours until the next day.
 # If executed twice within the 24 hour interval, it will notify the user how to proceed.
