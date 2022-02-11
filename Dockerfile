@@ -16,4 +16,4 @@ COPY . /steveBot
 COPY steveBot/__main__.py /steveBot
 
 # command to run on container start
-CMD [ "python", "-m", "__main__.py" ]
+CMD [ "python", "-m", "steveBot" ]
