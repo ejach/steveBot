@@ -76,11 +76,13 @@ try:
 # Catch the TweepErrors and proceed accordingly
 except TweepError as err:
     if err.api_code == 186:
-        print('Error 186: Tweet needs to be a bit shorter.')
+        exit(str(err) + '\n' + 'Error 186: Tweet needs to be a bit shorter.')
     if err.api_code == 187:
-        print('Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, or just delete the '
-              'newest tweet.')
+        exit(str(err) + '\n' + 'Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, '
+                               'or just delete the newest tweet.')
     if err.api_code == 215:
-        print('Error 215: Bad Authentication data. Please make sure your keys/credentials are correct and try again.')
+        exit(str(err) + '\n' + 'Error 215: Bad Authentication data. Please make sure your keys/credentials are '
+                               'correct and try again.')
     if err.api_code == 401:
-        print('Error 401: Unauthorized. Please make sure your keys/credentials are correct and try again.')
+        exit(str(err) + '\n' + 'Error 401: Unauthorized. Please make sure your keys/credentials are correct and try '
+                               'again.')
