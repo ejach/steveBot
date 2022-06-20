@@ -2,4 +2,4 @@ Pillow>=9.0.0
 Random-Word==1.0.7
 PyYAML==5.4.1
 schedule~=1.1.0
-tweepy~=3.10.0
+tweepy~=4.10.0
