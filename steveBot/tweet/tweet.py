@@ -4,7 +4,7 @@ from os import environ
 from time import sleep
 
 from schedule import every, run_pending
-from tweepy import OAuthHandler, API, TweepError
+from tweepy import OAuthHandler, API, TweepyException
 
 from steveBot.draw_image.draw_image import draw_image, assets_path
 
@@ -74,7 +74,7 @@ try:
         run_pending()
         sleep(1)
 # Catch the TweepErrors and proceed accordingly
-except TweepError as err:
+except TweepyException as err:
     if err.api_code == 186:
         exit(str(err) + '\n' + 'Error 186: Tweet needs to be a bit shorter.')
     if err.api_code == 187:
