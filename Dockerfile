@@ -7,7 +7,8 @@ WORKDIR /steveBot
 COPY requirements.txt .
 
 # install dependencies / make sure time zone is correct
-RUN ln -sf /usr/share/zoneinfo/America/New_York /etc/timezone && \
+RUN apk add -u zlib-dev jpeg-dev gcc musl-dev && \
+    ln -sf /usr/share/zoneinfo/America/New_York /etc/timezone && \
     ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime && \
     pip install -r requirements.txt
 
