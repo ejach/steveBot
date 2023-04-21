@@ -1,5 +1,5 @@
 Pillow>=9.0.0
-Random-Word==1.0.11
+Random-Word==1.0.7
 PyYAML==6.0
 schedule~=1.1.0
 tweepy~=4.12.1
