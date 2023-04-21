@@ -43,7 +43,7 @@ def tweet():
     status_text = f'The word of the day is {word}: {word_def}'
     status = tweet_strip(status_text)
     # Tweet image with the corresponding status
-    api.update_with_media(image, status)
+    api.update_status_with_media(status=status, filename=image)
     print('Tweet has been sent! See you in 24h.')
 
 
