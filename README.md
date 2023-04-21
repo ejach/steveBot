@@ -14,6 +14,23 @@ A Twitter bot that tweets a Steve Buscemi word of the day.
 
 `sudo docker run -it -e consumer_key=<YOUR_KEY> -e consumer_secret=<YOUR_KEY> -e access_token=<YOUR_KEY> -e access_token_secret=<YOUR_KEY> -e time_of_day=00:00 ghcr.io/ejach/stevebot:latest`
 
+#### Docker Compose
+```yaml
+version: '3.2'
+services:
+   stevebot:
+      container_name: stevebot
+      image: ghcr.io/ejach/stevebot:latest
+      environment:
+        - PYTHONUNBUFFERED=1
+        - time_of_day=00:00
+        - consumer_key=<consumer_key>
+        - consumer_secret=<consumer_secret>
+        - access_token=<access_token>
+        - access_token_secret=<access_token_secret>
+      restart: unless-stopped
+```
+
 ### Manually
 
 - Clone the repository
