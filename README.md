@@ -21,7 +21,6 @@ services:
       container_name: stevebot
       image: ghcr.io/ejach/stevebot:latest
       environment:
-        - PYTHONUNBUFFERED=1
         - time_of_day=00:00
         - consumer_key=<consumer_key>
         - consumer_secret=<consumer_secret>
