@@ -73,16 +73,16 @@ try:
     while True:
         run_pending()
         sleep(1)
-# Catch the TweepErrors and proceed accordingly
+# Catch the TweepExceptions and proceed accordingly
 except TweepyException as err:
-    if err.api_code == 186:
+    if err.api_codes == 186:
         exit(str(err) + '\n' + 'Error 186: Tweet needs to be a bit shorter.')
-    if err.api_code == 187:
+    if err.api_codes == 187:
         exit(str(err) + '\n' + 'Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, '
                                'or just delete the newest tweet.')
-    if err.api_code == 215:
+    if err.api_codes == 215 or 32 in err.api_codes:
         exit(str(err) + '\n' + 'Error 215: Bad Authentication data. Please make sure your keys/credentials are '
                                'correct and try again.')
-    if err.api_code == 401:
+    if err.api_codes == 401:
         exit(str(err) + '\n' + 'Error 401: Unauthorized. Please make sure your keys/credentials are correct and try '
                                'again.')

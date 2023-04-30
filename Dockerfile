@@ -3,6 +3,9 @@ FROM python:3.8-alpine
 # set the working directory in the container
 WORKDIR /steveBot
 
+# allow logs to be printed to console output
+env PYTHONUNBUFFERED=1
+
 # copy the dependencies file to the working directory
 COPY requirements.txt .
 
