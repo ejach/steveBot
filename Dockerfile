@@ -4,7 +4,7 @@ FROM python:3.8-alpine
 WORKDIR /steveBot
 
 # allow logs to be printed to console output
-env PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1
 
 # copy the dependencies file to the working directory
 COPY requirements.txt .

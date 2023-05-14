@@ -7,10 +7,15 @@ from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepyException
 
 from steveBot.draw_image.draw_image import draw_image, assets_path
+from steveBot.logger.log_conf import Logger
+
 
 # Credentials set in the config
-auth = OAuthHandler(environ.get('consumer_key'), environ.get('consumer_secret'))
-auth.set_access_token(environ.get('access_token'), environ.get('access_token_secret'))
+try:
+    auth = OAuthHandler(environ.get('consumer_key'), environ.get('consumer_secret'))
+    auth.set_access_token(environ.get('access_token'), environ.get('access_token_secret'))
+except TypeError as e:
+    Logger.log.exception(str(e) + '\nPlease make sure your environment variables are set properly and try again.'), exit()
 
 # Create API object
 api = API(auth)
@@ -20,12 +25,19 @@ tweet_time = environ.get('time_of_day')
 
 # Checks if the credentials entered are correct
 def authenticate():
-    if not api.verify_credentials():
-        print('Authentication: FAILED')
+    try:
+        if api.verify_credentials():
+            Logger.log.info('Authentication: OK')
+            return True
+        Logger.log.info('Authentication: FAILED')
         return False
-    else:
-        print('Authentication: OK')
-        return True
+    except TweepyException as err:
+        if 89 in err.api_codes:
+            Logger.log.exception(str(err) + '\n' + 'Error 401: Unauthorized. Please make sure your keys/credentials are correct and '
+                                            'try again.')
+        if 32 in err.api_codes:
+            Logger.log.exception(str(err) + '\n' + 'Error 215: Bad Authentication data. Please make sure your keys/credentials are '
+                                            'correct and try again.')
 
 
 # If the Tweet is longer than 280 characters, strip it and replace with the designated characters
@@ -44,7 +56,7 @@ def tweet():
     status = tweet_strip(status_text)
     # Tweet image with the corresponding status
     api.update_status_with_media(status=status, filename=image)
-    print('Tweet has been sent! See you in 24h.')
+    Logger.log.info('Tweet has been sent! See you in 24h.')
 
 
 # Calculates the amount of time left (in minutes) before 12am (or the custom time set in the example.env file)
@@ -57,18 +69,15 @@ def time_left():
     return trunc(s)
 
 
-try:
-    # Every day at the specified time, tweet
-    every().day.at(tweet_time).do(tweet)
-# Catch the TypeError
-except TypeError as err:
-    exit(str(err) + '\n' + 'Please make sure your environment variables are set properly and try again.')
+# Every day at the specified time, tweet
+every().day.at(tweet_time).do(tweet)
+
 
 # Infinite loop, tweets every day at the desired time, rest for 24 hours until the next day.
 # If executed twice within the 24 hour interval, it will notify the user how to proceed.
 try:
     # Informs the user upon running the script how many minutes are left before the next tweet is sent
-    print(f'There is {time_left()} minutes until the next tweet is sent. Sit tight!') if authenticate() else exit()
+    Logger.log.info(f'There is {time_left()} minutes until the next tweet is sent. Sit tight!') if authenticate() else exit()
     # While the authentication function is true, run the tweet function every 1s
     while True:
         run_pending()
@@ -76,13 +85,7 @@ try:
 # Catch the TweepExceptions and proceed accordingly
 except TweepyException as err:
     if 120 in err.api_codes:
-        exit(str(err) + '\n' + 'Error 186: Tweet needs to be a bit shorter.')
+        Logger.log.exception(str(err) + '\n' + 'Error 186: Tweet needs to be a bit shorter.')
     if 187 in err.api_codes:
-        exit(str(err) + '\n' + 'Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, '
-                               'or just delete the newest tweet.')
-    if 32 in err.api_codes:
-        exit(str(err) + '\n' + 'Error 215: Bad Authentication data. Please make sure your keys/credentials are '
-                               'correct and try again.')
-    if 89 in err.api_codes:
-        exit(str(err) + '\n' + 'Error 401: Unauthorized. Please make sure your keys/credentials are correct and try '
-                               'again.')
+        Logger.log.exception(str(err) + '\n' + 'Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, '
+                                        'or just delete the newest tweet.')

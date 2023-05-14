@@ -4,6 +4,9 @@ from json import loads
 from PIL import Image, ImageFont, ImageDraw
 from random_word import RandomWords
 
+from steveBot.logger.log_conf import Logger
+
+
 # Path for the assets based on if it is running in a Docker container
 assets_path = '.' if path.isfile('/steveBot/__main__.py') else '..'
 
@@ -21,22 +24,22 @@ def get_word():
 # Gets width of text and adjusts accordingly so it is not cut off
 def get_width(width):
     if 45 <= width < 55:
-        print('Under 55: Text offset detected, adjusting accordingly.')
+        Logger.log.info('Under 55: Text offset detected, adjusting accordingly.')
         return 295
     elif width < 45:
-        print('Under 45: Text offset detected, adjusting accordingly.')
+        Logger.log.info('Under 45: Text offset detected, adjusting accordingly.')
         return 340
     elif 60 < width < 70:
-        print('Over 60: Text offset detected, adjusting accordingly.')
+        Logger.log.info('Over 60: Text offset detected, adjusting accordingly.')
         return 205
     elif 70 <= width < 80:
-        print('Over 70: Text offset detected, adjusting accordingly.')
+        Logger.log.info('Over 70: Text offset detected, adjusting accordingly.')
         return 175
     elif 80 <= width < 90:
-        print('Over 80: Text offset detected, adjusting accordingly.')
+        Logger.log.info('Over 80: Text offset detected, adjusting accordingly.')
         return 110
     elif width >= 90:
-        print('Over 90: Text offset detected, adjusting accordingly.')
+        Logger.log.info('Over 90: Text offset detected, adjusting accordingly.')
         return 95
     else:
         return 230
@@ -55,7 +58,7 @@ def draw_image():
             # Call draw Method to add 2D graphics in an image
             img_1 = ImageDraw.Draw(img)
             w, h = img_1.textsize(word)
-            print('Width: ' + str(w) + ' height: ' + str(h))
+            Logger.log.info('Width: ' + str(w) + ' height: ' + str(h))
 
             # Add text to an image
             font_path = assets_path + '/assets/fonts/impact.ttf'
@@ -69,7 +72,7 @@ def draw_image():
         # If typeError is thrown, get another random word
         # This is a workaround for the library itself, there is no fix as of late
         except TypeError as e:
-            print(str(e) + '\n' + 'Restarting!')
+            Logger.log.info(str(e) + '\n' + 'Restarting!')
             sleep(1)
             word = get_word()
             continue
