@@ -4,8 +4,9 @@ from sys import stdout
 # One-line lambda wrapper for the singleton design pattern
 singleton = lambda c: c()
 
+
 @singleton
-class Logger():
+class Logger:
     def __init__(self):
         # Setup logger
         basicConfig(stream=stdout, level=INFO)

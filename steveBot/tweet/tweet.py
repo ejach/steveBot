@@ -6,7 +6,7 @@ from time import sleep
 from schedule import every, run_pending
 from tweepy import OAuthHandler, API, TweepyException
 
-from steveBot.draw_image.draw_image import draw_image, assets_path
+from steveBot.draw_image.draw_image import assets_path, get_word, draw_image
 from steveBot.logger.log_conf import Logger
 
 
@@ -15,7 +15,8 @@ try:
     auth = OAuthHandler(environ.get('consumer_key'), environ.get('consumer_secret'))
     auth.set_access_token(environ.get('access_token'), environ.get('access_token_secret'))
 except TypeError as e:
-    Logger.log.exception(str(e) + '\nPlease make sure your environment variables are set properly and try again.'), exit()
+    Logger.log.exception(str(e) + '\nPlease make sure your environment variables are set properly '
+                                  'and try again.'), exit()
 
 # Create API object
 api = API(auth)
@@ -33,11 +34,11 @@ def authenticate():
         return False
     except TweepyException as err:
         if 89 in err.api_codes:
-            Logger.log.exception(str(err) + '\n' + 'Error 401: Unauthorized. Please make sure your keys/credentials are correct and '
-                                            'try again.')
+            Logger.log.exception(str(err) + '\n' + 'Error 401: Unauthorized. Please make sure your keys/credentials '
+                                                   'are correct and try again.')
         if 32 in err.api_codes:
-            Logger.log.exception(str(err) + '\n' + 'Error 215: Bad Authentication data. Please make sure your keys/credentials are '
-                                            'correct and try again.')
+            Logger.log.exception(str(err) + '\n' + 'Error 215: Bad Authentication data. Please make sure your '
+                                                   'keys/credentials are correct and try again.')
 
 
 # If the Tweet is longer than 280 characters, strip it and replace with the designated characters
@@ -49,13 +50,17 @@ def tweet_strip(tweet_text):
 # Call the draw_image function, then tweet the image and the corresponding
 # word in the body of the tweet
 def tweet():
-    word, word_def = draw_image()
+    # Append the text to the image
+    draw_image()
+    gw = get_word()
+    word, word_def = gw['word'], gw['word_def']
     # Instantiate dictionary to look up definition of the word
     image = assets_path + '/assets/steve2.jpg'
-    status_text = f'The word of the day is {word}: {word_def}'
+    status_text = 'The word of the day is %s: %s' % (word, word_def)
     status = tweet_strip(status_text)
     # Tweet image with the corresponding status
     api.update_status_with_media(status=status, filename=image)
+    Logger.log.info('The word of the day is %s' % word)
     Logger.log.info('Tweet has been sent! See you in 24h.')
 
 
@@ -77,7 +82,8 @@ every().day.at(tweet_time).do(tweet)
 # If executed twice within the 24 hour interval, it will notify the user how to proceed.
 try:
     # Informs the user upon running the script how many minutes are left before the next tweet is sent
-    Logger.log.info(f'There is {time_left()} minutes until the next tweet is sent. Sit tight!') if authenticate() else exit()
+    Logger.log.info('There is %s minutes until the next tweet is sent. Sit tight!' % time_left()) if authenticate() \
+        else exit()
     # While the authentication function is true, run the tweet function every 1s
     while True:
         run_pending()
@@ -87,5 +93,5 @@ except TweepyException as err:
     if 120 in err.api_codes:
         Logger.log.exception(str(err) + '\n' + 'Error 186: Tweet needs to be a bit shorter.')
     if 187 in err.api_codes:
-        Logger.log.exception(str(err) + '\n' + 'Error 187: Duplicate tweet detected. Please wait 24 hours before executing again, '
-                                        'or just delete the newest tweet.')
+        Logger.log.exception(str(err) + '\n' + 'Error 187: Duplicate tweet detected. Please wait 24 hours before '
+                                               'executing again, or just delete the newest tweet.')
